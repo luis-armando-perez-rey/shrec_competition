@@ -17,21 +17,22 @@ https://help.sketchup.com/en/downloading-older-versions
 In Sketchup Make go to the Window menu and select Ruby Console. In the console type the command: 
 
 ```
-load "PATH_TO_RENDERING_FOLDER/RENDERING_FILE.rb"
+load "PATH_TO_RENDERING_FOLDER/render_rotations.rb"
 ```
 There are two rendering files available:
 
-- render_rotations.rb : This file allows to render several views from all of the sketchup files models within a folder and save the created images in a target folder. The script will open a directory box to select the folder that contains the .skp files and will open a second directory box to select the target directory to save the created images. The views are obtained from 12 different positions around the 3D scene by rotating the camera by equidistant angles with respect to the center of the scene. 
-- default_view_generation.rb : This file loads each of the sketchup file models and saves the rendered image from the predefined view associated to each model.  
+- render_rotations.rb : This file allows to render several views (256x256x3 pixel images) from all of the sketchup files models within a folder and save the created images in a target folder. The script will open a directory box to select the folder that contains the .skp files and will open a second directory box to select the target directory to save the created images. The views are obtained from 13 different positions, 12 are around the 3D scene by rotating the camera by equidistant angles with respect to the center of the scene and the extra view is from the predefined orientations from the dataset. 
 
 #### Dataset
 In the dataset folder folder the data from the [SHREC competition](http://orca.st.usm.edu/~bli/SceneIBR2019/) needs to be added. The generated renders obtained by using the rendering codes should be placed in render_256 and test_render_256 respectively. On the other hand, the data corresponding to the query images, both for training and test need to be placed at the train_photographs and test_photographs folder respectively.   
 
 
 #### Notebooks
+
+
 The order for running the notebooks is as follows
-1. resize_images: This notebook processes the data that has been placed in the corresponding folder to generate the resized data for training and evaluation. 
-2. train_simple_cvae or train_vgg_cvae: These notebooks are used for training the corresponding models. Models are placed in the training_models folder.
+1. resize_images: The rendering process produces images with size (256x256x3) which can be used to train the vgg_cvae model. For the training of a simple_cvae model we need to use resized images of size (64x64x3). This notebook processes the data that has been placed in the corresponding folder to generate the resized data for training and evaluation. It also fixes some of the images from the given image dataset of SHREC since some of the pictures cannot be loaded. 
+2. train_simple_cvae or train_vgg_cvae: These notebooks are used for training the corresponding models. The obtained trained models are stored in the training_models folder.
 3. make_submissions_simple or make_submissions_vgg: These notebooks are used for evaluating the trained models which have been placed in the trained_models folder after training. The submission files are placed in the submissions folder  
 
 ![Process of object retrieval](./images/method_image.png)
